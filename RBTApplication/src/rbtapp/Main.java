@@ -6,6 +6,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -20,11 +21,31 @@ public class Main {
 			
 			doc.getDocumentElement().normalize();
 			
-			NodeList cellList = doc.getElementsByTagName("cells");
+			NodeList startPointList = doc.getElementsByTagName("start-point");
+			Node startPoint = startPointList.item(0);
+			NamedNodeMap startPoingMap = startPoint.getAttributes();
+			String startPointRow = startPoingMap.getNamedItem("row").getTextContent();
+			String startPointCol = startPoingMap.getNamedItem("col").getTextContent();
 			
-			Node cell = cellList.item(0);
-			NodeList cellChield = cell.getChildNodes();
-			System.out.println(cellChield.getLength());
+			NodeList endPointList = doc.getElementsByTagName("end-point");
+			Node endPoint = endPointList.item(0);
+			NamedNodeMap endPoingMap = endPoint.getAttributes();
+			String endPointRow = endPoingMap.getNamedItem("row").getTextContent();
+			String endPointCol = endPoingMap.getNamedItem("col").getTextContent();
+			
+			NodeList cellList = doc.getElementsByTagName("cell");
+			
+			for(int i = 0; i < cellList.getLength();i++) {
+				Node cell = cellList.item(i);
+				NamedNodeMap cellMap = cell.getAttributes();
+				Node cellRow = cellMap.getNamedItem("row");
+				Node cellCol = cellMap.getNamedItem("col");
+				
+				System.out.println(cellRow.getTextContent() + " " + cellCol.getTextContent());
+				
+			}
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
